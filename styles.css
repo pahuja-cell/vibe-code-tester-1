@@ -2,22 +2,40 @@ const navToggle = document.querySelector('.nav-toggle');
 const nav = document.querySelector('.main-nav');
 const year = document.getElementById('year');
 
-if (year) {
-  year.textContent = new Date().getFullYear();
+const CART_KEY = 'stryde-cart';
+const NEWSLETTER_KEY = 'stryde-newsletter';
+const SUPPORT_KEY = 'stryde-support';
+
+function getCart() {
+  return JSON.parse(localStorage.getItem(CART_KEY) || '[]');
 }
 
-if (navToggle && nav) {
-  navToggle.addEventListener('click', () => {
-    const isOpen = nav.classList.toggle('is-open');
-    navToggle.setAttribute('aria-expanded', String(isOpen));
+function updateCartCount() {
+  const countEls = document.querySelectorAll('#cart-count');
+  const cart = getCart();
+  const count = cart.reduce((sum, item) => sum + Number(item.quantity || 1), 0);
+  countEls.forEach((el) => {
+    el.textContent = String(count);
   });
+}
 
-  nav.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      nav.classList.remove('is-open');
-      navToggle.setAttribute('aria-expanded', 'false');
-    });
-  });
+function addToCart(productId, size = 'M') {
+  const cart = getCart();
+  const existing = cart.find(item => item.id === productId && item.size === size);
+
+  if (existing) {
+    existing.quantity += 1;
+  } else {
+    cart.push({ id: productId, size, quantity: 1 });
+  }
+
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  updateCartCount();
+  window.location.href = 'cart.html';
+}
+
+function getProductById(id) {
+  return window.STRYDE_DATA.products.find(product => product.id === id) || window.STRYDE_DATA.products[0];
 }
 
 function renderFeaturedProducts() {
@@ -45,14 +63,9 @@ function renderCollections() {
   const container = document.getElementById('collection-grid');
   if (!container || !window.STRYDE_DATA) return;
 
-  const collectionMap = {
-    dark: 'collection-dark',
-    warm: 'collection-warm',
-    light: 'collection-light'
-  };
-
+  const maps = { dark: 'collection-dark', warm: 'collection-warm', light: 'collection-light' };
   container.innerHTML = window.STRYDE_DATA.collections.map((item, index) => `
-    <article class="collection-card ${collectionMap[item.tone] || 'collection-dark'} ${index === 0 ? 'large' : 'small'}">
+    <article class="collection-card ${maps[item.tone] || 'collection-dark'} ${index === 0 ? 'large' : 'small'}">
       <div class="collection-copy">
         <p>${item.accent}</p>
         <h3>${item.name}</h3>
@@ -61,17 +74,12 @@ function renderCollections() {
   `).join('');
 }
 
-function getProductById(id) {
-  return window.STRYDE_DATA.products.find(product => product.id === id) || window.STRYDE_DATA.products[0];
-}
-
 function renderProductPage() {
   const container = document.getElementById('product-page');
   if (!container || !window.STRYDE_DATA) return;
 
   const params = new URLSearchParams(window.location.search);
   const product = getProductById(params.get('id'));
-
   const similar = window.STRYDE_DATA.products.filter(item => item.id !== product.id).slice(0, 3);
 
   container.innerHTML = `
@@ -91,28 +99,24 @@ function renderProductPage() {
 
         <div class="selection-block">
           <h3>Fit</h3>
-          <div class="options-row">
-            <span>${product.fits}</span>
-          </div>
+          <div class="options-row"><span>${product.fits}</span></div>
         </div>
 
         <div class="selection-block">
           <h3>Color</h3>
-          <div class="options-row">
-            <span>${product.color}</span>
-          </div>
+          <div class="options-row"><span>${product.color}</span></div>
         </div>
 
         <div class="selection-block">
           <h3>Size</h3>
           <div class="options-row">
-            ${product.sizes.map(size => `<button class="size-chip" type="button">${size}</button>`).join('')}
+            ${product.sizes.map(size => `<button class="size-chip" type="button" data-size="${size}">${size}</button>`).join('')}
           </div>
         </div>
 
         <div class="purchase-row">
-          <button class="btn btn-primary" type="button">Add to bag</button>
-          <button class="btn btn-secondary" type="button">Save for later</button>
+          <button class="btn btn-primary" type="button" id="add-to-bag-btn">Add to bag</button>
+          <a href="products.html" class="btn btn-secondary">Continue shopping</a>
         </div>
 
         <div class="payment-row">
@@ -161,17 +165,193 @@ function renderProductPage() {
       </div>
     </div>
   `;
+
+  let selectedSize = product.sizes[0];
+  const sizeChips = document.querySelectorAll('.size-chip');
+  sizeChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      sizeChips.forEach(item => item.classList.remove('selected'));
+      chip.classList.add('selected');
+      selectedSize = chip.dataset.size;
+    });
+  });
+
+  const addButton = document.getElementById('add-to-bag-btn');
+  addButton.addEventListener('click', () => {
+    addToCart(product.id, selectedSize);
+  });
 }
 
-function formHandlers() {
+function renderShopPage() {
+  const container = document.getElementById('all-products');
+  const filterContainer = document.getElementById('filter-pills');
+  if (!container || !window.STRYDE_DATA) return;
+
+  const filters = ['All', ...new Set(window.STRYDE_DATA.products.map(item => item.category))];
+
+  filterContainer.innerHTML = filters.map(filter => `
+    <button class="filter-pill ${filter === 'All' ? 'active' : ''}" data-filter="${filter}">${filter}</button>
+  `).join('');
+
+  let activeFilter = 'All';
+
+  function renderFilteredProducts(filter = 'All') {
+    const products = window.STRYDE_DATA.products.filter(item => filter === 'All' || item.category === filter);
+    container.innerHTML = products.map(product => `
+      <article class="product-card ${product.imageClass}">
+        <div class="product-tag">${product.tag}</div>
+        <div class="product-visual"></div>
+        <div class="product-meta">
+          <h3>${product.name}</h3>
+          <p>${product.category}</p>
+          <div class="product-bottom">
+            <span>$${product.price}</span>
+            <a href="product.html?id=${product.id}" class="mini-btn">View</a>
+          </div>
+        </div>
+      </article>
+    `).join('');
+  }
+
+  document.getElementById('sort-select')?.addEventListener('change', (event) => {
+    const sorted = [...window.STRYDE_DATA.products];
+    const filterValue = activeFilter;
+    const filtered = sorted.filter(item => filterValue === 'All' || item.category === filterValue);
+
+    if (event.target.value === 'low-high') {
+      filtered.sort((a, b) => a.price - b.price);
+    } else if (event.target.value === 'high-low') {
+      filtered.sort((a, b) => b.price - a.price);
+    }
+
+    container.innerHTML = filtered.map(product => `
+      <article class="product-card ${product.imageClass}">
+        <div class="product-tag">${product.tag}</div>
+        <div class="product-visual"></div>
+        <div class="product-meta">
+          <h3>${product.name}</h3>
+          <p>${product.category}</p>
+          <div class="product-bottom">
+            <span>$${product.price}</span>
+            <a href="product.html?id=${product.id}" class="mini-btn">View</a>
+          </div>
+        </div>
+      </article>
+    `).join('');
+  });
+
+  filterContainer.addEventListener('click', (event) => {
+    const target = event.target.closest('.filter-pill');
+    if (!target) return;
+
+    activeFilter = target.dataset.filter;
+    filterContainer.querySelectorAll('.filter-pill').forEach(btn => btn.classList.toggle('active', btn.dataset.filter === activeFilter));
+    renderFilteredProducts(activeFilter);
+  });
+
+  renderFilteredProducts(activeFilter);
+}
+
+function formatMoney(value) {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
+}
+
+function renderCartPage() {
+  const container = document.getElementById('cart-items');
+  if (!container || !window.STRYDE_DATA) return;
+
+  const cart = getCart();
+  if (!cart.length) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <h2>Your bag is empty.</h2>
+        <p>Explore our latest essentials and build your first Strydë outfit.</p>
+        <a href="products.html" class="btn btn-primary">Start shopping</a>
+      </div>
+    `;
+    document.getElementById('subtotal').textContent = '$0';
+    document.getElementById('shipping-total').textContent = '$0';
+    document.getElementById('total-price').textContent = '$0';
+    return;
+  }
+
+  const productMap = Object.fromEntries(window.STRYDE_DATA.products.map(item => [item.id, item]));
+  const cartItems = cart.map(item => ({ ...productMap[item.id], quantity: item.quantity, size: item.size }));
+
+  const subtotal = cartItems.reduce((sum, product) => sum + (product.price * product.quantity), 0);
+  const shipping = subtotal > 120 ? 0 : 12;
+  const total = subtotal + shipping;
+
+  document.getElementById('subtotal').textContent = formatMoney(subtotal);
+  document.getElementById('shipping-total').textContent = formatMoney(shipping);
+  document.getElementById('total-price').textContent = formatMoney(total);
+
+  container.innerHTML = cartItems.map(product => `
+    <div class="cart-item">
+      <div class="cart-thumb ${product.imageClass}"></div>
+      <div class="cart-copy">
+        <div class="cart-topline">
+          <h3>${product.name}</h3>
+          <button class="remove-item" data-id="${product.id}" data-size="${product.size}" type="button">Remove</button>
+        </div>
+        <p>${product.category}</p>
+        <div class="cart-meta">
+          <span>Size: ${product.size}</span>
+          <span>Qty: ${product.quantity}</span>
+        </div>
+      </div>
+      <strong>${formatMoney(product.price * product.quantity)}</strong>
+    </div>
+  `).join('');
+
+  document.querySelectorAll('.remove-item').forEach(button => {
+    button.addEventListener('click', () => {
+      const { id, size } = button.dataset;
+      const updated = getCart().filter(item => !(item.id === id && item.size === size));
+      localStorage.setItem(CART_KEY, JSON.stringify(updated));
+      renderCartPage();
+      updateCartCount();
+    });
+  });
+}
+
+function renderCheckoutSummary() {
+  const container = document.getElementById('checkout-summary');
+  if (!container) return;
+
+  const cart = getCart();
+  if (!cart.length) {
+    container.innerHTML = '<p>Your bag is empty.</p>';
+    return;
+  }
+
+  const productMap = Object.fromEntries(window.STRYDE_DATA.products.map(item => [item.id, item]));
+  const items = cart.map(item => ({ ...productMap[item.id], quantity: item.quantity, size: item.size }));
+  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const shipping = subtotal > 120 ? 0 : 12;
+  const total = subtotal + shipping;
+
+  document.getElementById('checkout-subtotal').textContent = formatMoney(subtotal);
+  document.getElementById('checkout-shipping').textContent = formatMoney(shipping);
+  document.getElementById('checkout-total').textContent = formatMoney(total);
+
+  container.innerHTML = items.map(item => `
+    <div class="checkout-summary-item">
+      <span>${item.name} (${item.size}) x${item.quantity}</span>
+      <strong>${formatMoney(item.price * item.quantity)}</strong>
+    </div>
+  `).join('');
+}
+
+function handleForms() {
   const newsletterForm = document.getElementById('newsletter-form');
   if (newsletterForm) {
     newsletterForm.addEventListener('submit', (event) => {
       event.preventDefault();
       const email = document.getElementById('newsletter-email')?.value || '';
-      const submissions = JSON.parse(localStorage.getItem('stryde-newsletter') || '[]');
+      const submissions = JSON.parse(localStorage.getItem(NEWSLETTER_KEY) || '[]');
       submissions.push({ email, date: new Date().toISOString() });
-      localStorage.setItem('stryde-newsletter', JSON.stringify(submissions));
+      localStorage.setItem(NEWSLETTER_KEY, JSON.stringify(submissions));
       newsletterForm.reset();
       alert('You are now subscribed to Strydë updates.');
     });
@@ -183,16 +363,54 @@ function formHandlers() {
       event.preventDefault();
       const entries = new FormData(supportForm);
       const message = Object.fromEntries(entries.entries());
-      const records = JSON.parse(localStorage.getItem('stryde-support') || '[]');
+      const records = JSON.parse(localStorage.getItem(SUPPORT_KEY) || '[]');
       records.push({ ...message, date: new Date().toISOString() });
-      localStorage.setItem('stryde-support', JSON.stringify(records));
+      localStorage.setItem(SUPPORT_KEY, JSON.stringify(records));
       supportForm.reset();
       alert('Your message has been sent to the Strydë support team.');
     });
   }
+
+  const checkoutForm = document.getElementById('checkout-form');
+  if (checkoutForm) {
+    checkoutForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const entries = new FormData(checkoutForm);
+      const order = Object.fromEntries(entries.entries());
+      const orders = JSON.parse(localStorage.getItem('stryde-orders') || '[]');
+      orders.push({ ...order, cart: getCart(), date: new Date().toISOString() });
+      localStorage.setItem('stryde-orders', JSON.stringify(orders));
+      localStorage.removeItem(CART_KEY);
+      checkoutForm.reset();
+      alert('Order placed successfully. Thank you for shopping Strydë.');
+      window.location.href = 'index.html';
+    });
+  }
 }
 
+if (year) {
+  year.textContent = new Date().getFullYear();
+}
+
+if (navToggle && nav) {
+  navToggle.addEventListener('click', () => {
+    const isOpen = nav.classList.toggle('is-open');
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  nav.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      nav.classList.remove('is-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+}
+
+updateCartCount();
 renderFeaturedProducts();
 renderCollections();
 renderProductPage();
-formHandlers();
+renderShopPage();
+renderCartPage();
+renderCheckoutSummary();
+handleForms();

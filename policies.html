@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Strydë customer support, shipping details, returns, and privacy policy." />
-    <title>Strydë | Support & Policies</title>
+    <meta name="description" content="Checkout for Strydë streetwear orders." />
+    <title>Strydë | Checkout</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -20,71 +20,80 @@
 
         <nav class="main-nav" aria-label="Main navigation">
           <a href="index.html#new">New Arrivals</a>
-          <a href="index.html#collections">Collections</a>
-          <a href="index.html#story">Brand Story</a>
-          <a href="#contact-support">Support</a>
+          <a href="products.html">Shop All</a>
+          <a href="policies.html">Support</a>
         </nav>
 
         <div class="nav-actions">
           <a class="nav-link" href="index.html#newsletter">Join</a>
-          <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
+          <a class="nav-link cart-link" href="cart.html">Bag <span id="cart-count">0</span></a>
         </div>
       </div>
     </header>
 
     <main class="section">
-      <div class="container policy-wrap">
-        <div class="policy-intro">
-          <p class="eyebrow">Support</p>
-          <h1>Customer care & policies</h1>
-        </div>
+      <div class="container checkout-wrap">
+        <div class="checkout-form-area">
+          <div class="page-header compact-header">
+            <p class="eyebrow">Checkout</p>
+            <h1>Complete your order</h1>
+          </div>
 
-        <div class="policy-grid">
-          <article class="policy-card" id="shipping">
-            <h3>Shipping</h3>
-            <p>Orders are processed within 24–48 hours. Domestic delivery typically takes 3–5 business days. International shipping is available, with customs charges calculated at checkout.</p>
-          </article>
-
-          <article class="policy-card" id="returns">
-            <h3>Returns & exchanges</h3>
-            <p>Unused items may be returned within 14 days of delivery. Exchanges are processed for eligible sizes and stock availability. We offer easy returns for all domestic orders.</p>
-          </article>
-
-          <article class="policy-card" id="privacy">
-            <h3>Privacy policy</h3>
-            <p>We collect email addresses, order data, and usage information to fulfill services, improve the customer experience, and communicate product updates. We do not sell personal data.</p>
-          </article>
-
-          <article class="policy-card" id="contact-support">
-            <h3>Contact support</h3>
-            <p>Email: support@strydebrand.com<br />Instagram: @strydeofficial<br />TikTok: @strydeofficial</p>
-          </article>
-        </div>
-
-        <div class="support-form-wrap">
-          <h2>Contact the team</h2>
-          <form id="support-form" class="support-form">
+          <form id="checkout-form" class="checkout-form">
             <div class="field-row">
               <label>
-                Name
-                <input type="text" name="name" placeholder="Your name" required />
+                First name
+                <input type="text" name="firstName" placeholder="Your first name" required />
               </label>
               <label>
-                Email
-                <input type="email" name="email" placeholder="Your email" required />
+                Last name
+                <input type="text" name="lastName" placeholder="Your last name" required />
               </label>
             </div>
+
             <label>
-              Message
-              <textarea name="message" placeholder="How can we help?" required></textarea>
+              Email
+              <input type="email" name="email" placeholder="you@example.com" required />
             </label>
-            <button class="btn btn-primary" type="submit">Send message</button>
+
+            <label>
+              Shipping address
+              <textarea name="address" placeholder="Street address" required></textarea>
+            </label>
+
+            <div class="field-row">
+              <label>
+                City
+                <input type="text" name="city" placeholder="City" required />
+              </label>
+              <label>
+                Postal code
+                <input type="text" name="postal" placeholder="Postal code" required />
+              </label>
+            </div>
+
+            <label>
+              Payment method
+              <select name="paymentMethod" required>
+                <option value="Visa">Visa</option>
+                <option value="Mastercard">Mastercard</option>
+                <option value="PayPal">PayPal</option>
+                <option value="Apple Pay">Apple Pay</option>
+                <option value="Klarna">Klarna</option>
+              </select>
+            </label>
+
+            <button class="btn btn-primary full-width" type="submit">Place order</button>
           </form>
         </div>
+
+        <aside class="checkout-panel">
+          <h2>Order summary</h2>
+          <div id="checkout-summary"></div>
+          <div class="summary-row"><span>Subtotal</span><strong id="checkout-subtotal">$0</strong></div>
+          <div class="summary-row"><span>Shipping</span><strong id="checkout-shipping">$0</strong></div>
+          <div class="summary-row total-row"><span>Total</span><strong id="checkout-total">$0</strong></div>
+        </aside>
       </div>
     </main>
 
@@ -92,9 +101,8 @@
       <div class="container footer-wrap">
         <p>© <span id="year"></span> Strydë</p>
         <div class="footer-links">
-          <a href="index.html#new">Shop</a>
-          <a href="index.html#collections">Collections</a>
-          <a href="index.html#story">Brand</a>
+          <a href="products.html">Shop</a>
+          <a href="policies.html">Support</a>
         </div>
       </div>
     </footer>

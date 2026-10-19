@@ -1,162 +1,106 @@
-const BRAND = {
-  name: 'Strydë',
-  tag: 'Premium streetwear for the next chapter.',
-  palette: ['Black', 'Off-White', 'Stone', 'Charcoal', 'Muted Silver'],
-  socials: {
-    instagram: '@strydeofficial',
-    tiktok: '@strydeofficial',
-    email: 'support@strydebrand.com'
-  },
-  shipping: 'Free shipping on orders over $120 in the US.',
-  paymentMethods: ['Visa', 'Mastercard', 'Apple Pay', 'PayPal', 'Klarna']
-};
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Customer support, shipping, returns, and privacy policy for Strydë." />
+    <title>Strydë | Support & Policies</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a href="index.html" class="brand" aria-label="Strydë home">
+          <span class="brand-mark">S</span>
+          <span class="brand-name">Strydë</span>
+        </a>
 
-const collections = [
-  {
-    name: 'The Motion Capsule',
-    description: 'Oversized layers built for the rhythm of everyday life.',
-    accent: 'Neutral essentials',
-    tone: 'dark'
-  },
-  {
-    name: 'After Hours',
-    description: 'Night-ready, city-inspired silhouettes with elevated utility.',
-    accent: 'Late-night energy',
-    tone: 'warm'
-  },
-  {
-    name: 'Quiet Authority',
-    description: 'Minimal pieces with a confident, premium finish.',
-    accent: 'Understated luxury',
-    tone: 'light'
-  }
-];
+        <nav class="main-nav" aria-label="Main navigation">
+          <a href="index.html#new">New Arrivals</a>
+          <a href="products.html">Shop All</a>
+          <a href="index.html#story">Brand Story</a>
+          <a href="#contact-support">Support</a>
+        </nav>
 
-const products = [
-  {
-    id: 'velocity-overshirt',
-    name: 'Velocity Overshirt',
-    category: 'Outerwear',
-    price: 120,
-    tag: 'Best seller',
-    color: 'Stone / Charcoal',
-    sizes: ['S', 'M', 'L', 'XL'],
-    description: 'A relaxed outer layer designed in a soft-touch brushed cotton blend for all-day movement and everyday structure.',
-    designConcept: 'Structured, boxy proportions with subtle utility detailing for a confident, minimalist profile.',
-    retailStrategy: 'Positioned as premium everyday layering for late teens and young adults with an elevated, modern silhouette.',
-    fits: 'Relaxed fit',
-    fabric: 'Brushed cotton twill',
-    feature: 'Hidden utility pocket and tonal logo embroidery',
-    imageClass: 'product-visual-a'
-  },
-  {
-    id: 'drift-tee',
-    name: 'Drift T-Shirt',
-    category: 'Tops',
-    price: 58,
-    tag: 'New',
-    color: 'Off-white / Black',
-    sizes: ['XS', 'S', 'M', 'L', 'XL'],
-    description: 'A premium heavyweight tee with a soft hand-feel, boxy cut, and accessible luxury finish.',
-    designConcept: 'Minimal branding and a clean drape designed to feel premium without excess decoration.',
-    retailStrategy: 'Entry-level premium hero product built to convert new shoppers into repeat customers.',
-    fits: 'Baggy fit',
-    fabric: 'Heavyweight cotton jersey',
-    feature: 'Geometric S chest tab and washed finish',
-    imageClass: 'product-visual-b'
-  },
-  {
-    id: 'summit-cargo',
-    name: 'Summit Cargo',
-    category: 'Bottoms',
-    price: 138,
-    tag: 'Limited',
-    color: 'Charcoal / Stone',
-    sizes: ['S', 'M', 'L', 'XL'],
-    description: 'Relaxed utility joggers built for movement with a premium silhouette and clean finishing details.',
-    designConcept: 'Street utility meets elevated tailoring, with soft tapering and functional pocket placement.',
-    retailStrategy: 'A strong seasonal product to anchor the mid-price tier and showcase functionality.',
-    fits: 'Relaxed straight leg',
-    fabric: 'Premium cotton blend',
-    feature: 'Subtle elastic cuffs and utility pockets',
-    imageClass: 'product-visual-c'
-  },
-  {
-    id: 'signal-hoodie',
-    name: 'Signal Hoodie',
-    category: 'Outerwear',
-    price: 118,
-    tag: 'Core',
-    color: 'Black / Stone',
-    sizes: ['S', 'M', 'L', 'XL'],
-    description: 'Lightweight premium hoodie designed for layering and everyday wear with a structured drape.',
-    designConcept: 'A luxurious everyday hoodie with tonal branding and a weightless feel that sits between premium basics and elevated streetwear.',
-    retailStrategy: 'This is a repeat-purchase staple aimed at everyday wear, social content, and broad appeal.',
-    fits: 'Oversized fit',
-    fabric: 'French terry',
-    feature: 'Embroidered S emblem on the hem',
-    imageClass: 'product-visual-d'
-  },
-  {
-    id: 'monarch-quarter-zip',
-    name: 'Monarch Quarter Zip',
-    category: 'Layering',
-    price: 112,
-    tag: 'Top pick',
-    color: 'Muted silver / Stone',
-    sizes: ['S', 'M', 'L', 'XL'],
-    description: 'A refined quarter zip in a sleek premium knit with subtle structure and stretch recovery.',
-    designConcept: 'Minimal athletic elegance with a city-ready silhouette and soft-touch layering appeal.',
-    retailStrategy: 'Ideal for the young adult market who wants elevated casual essentials without oversized branding.',
-    fits: 'Relaxed athletic',
-    fabric: 'Premium knit blend',
-    feature: 'Minimal zipper placket and tonal woven stripe',
-    imageClass: 'product-visual-e'
-  },
-  {
-    id: 'monarch-wallet',
-    name: 'Monarch Wallet',
-    category: 'Accessories',
-    price: 64,
-    tag: 'Accessory',
-    color: 'Charcoal / Black',
-    sizes: ['One size'],
-    description: 'A compact all-day wallet crafted with a polished finish and minimal, premium detailing.',
-    designConcept: 'Small-object luxury with understated hardware and a clean silhouette for daily carry.',
-    retailStrategy: 'High-margin accessory to broaden the collection and increase average order value.',
-    fits: 'Compact everyday',
-    fabric: 'Pebbled vegan leather',
-    feature: 'Embossed S emblem and stitched interior pocket',
-    imageClass: 'product-visual-f'
-  }
-];
+        <div class="nav-actions">
+          <a class="nav-link" href="index.html#newsletter">Join</a>
+          <a class="nav-link cart-link" href="cart.html">Bag <span id="cart-count">0</span></a>
+          <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
 
-const brandStory = [
-  'Strydë is premium streetwear for the people who move with intention.',
-  'We focus on well-made essentials, refined proportions, and confident minimalism.',
-  'Our imprint is not loud — it is memorable, geometric, and premium.',
-  'We are designed for the culture, not copied from it.'
-];
+    <main class="section">
+      <div class="container policy-wrap">
+        <div class="policy-intro">
+          <p class="eyebrow">Support</p>
+          <h1>Customer care & policies</h1>
+        </div>
 
-const policies = {
-  shipping: {
-    title: 'Shipping',
-    text: 'Orders are processed in 24–48 hours. Domestic shipping takes 3–5 business days. International orders are shipped with tracking and duty estimates available at checkout.'
-  },
-  returns: {
-    title: 'Returns & exchanges',
-    text: 'Full-price items can be returned in their original condition within 14 days. Exchanges are subject to stock availability.'
-  },
-  privacy: {
-    title: 'Privacy',
-    text: 'We use your information to process orders, support customer care, and send product updates. We do not sell or rent customer data.'
-  }
-};
+        <div class="policy-grid">
+          <article class="policy-card" id="shipping">
+            <h3>Shipping</h3>
+            <p>Orders are processed within 24–48 hours. Domestic delivery typically takes 3–5 business days. International shipping is available, with customs charges calculated at checkout.</p>
+          </article>
 
-window.STRYDE_DATA = {
-  BRAND,
-  collections,
-  products,
-  brandStory,
-  policies
-};
+          <article class="policy-card" id="returns">
+            <h3>Returns & exchanges</h3>
+            <p>Unused items may be returned within 14 days of delivery. Exchanges are processed for eligible sizes and stock availability. We offer easy returns for all domestic orders.</p>
+          </article>
+
+          <article class="policy-card" id="privacy">
+            <h3>Privacy policy</h3>
+            <p>We collect email addresses, order data, and usage information to fulfill services, improve the customer experience, and communicate product updates. We do not sell personal data.</p>
+          </article>
+
+          <article class="policy-card" id="contact-support">
+            <h3>Contact support</h3>
+            <p>Email: support@strydebrand.com<br />Instagram: @strydeofficial<br />TikTok: @strydeofficial</p>
+          </article>
+        </div>
+
+        <div class="support-form-wrap">
+          <h2>Contact the team</h2>
+          <form id="support-form" class="support-form">
+            <div class="field-row">
+              <label>
+                Name
+                <input type="text" name="name" placeholder="Your name" required />
+              </label>
+              <label>
+                Email
+                <input type="email" name="email" placeholder="Your email" required />
+              </label>
+            </div>
+            <label>
+              Message
+              <textarea name="message" placeholder="How can we help?" required></textarea>
+            </label>
+            <button class="btn btn-primary" type="submit">Send message</button>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-wrap">
+        <p>© <span id="year"></span> Strydë</p>
+        <div class="footer-links">
+          <a href="index.html#new">Shop</a>
+          <a href="products.html">Collections</a>
+          <a href="index.html#story">Brand</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
