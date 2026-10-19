@@ -1,5 +1,23 @@
 # vibe-code-tester-1
 
-![Project preview](https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80)
+This repository has been turned into a simple modern landing page website.
 
-This repository now includes a project image preview in the README.
+## Local preview
+
+Open `index.html` directly in a browser, or run a simple local server:
+
+```bash
+python3 -m http.server 8000
+```
+
+Then visit http://localhost:8000
+
+## Files
+
+- `index.html` — main website structure and content
+- `styles.css` — modern responsive styling
+- `script.js` — small interaction for the mobile navigation
+
+## Notes
+
+This is a static website designed to be easy to customize and deploy to GitHub Pages or any static hosting platform.
