@@ -1,23 +1,68 @@
-# vibe-code-tester-1
+# Strydë — premium streetwear storefront
 
-This repository has been turned into a simple modern landing page website.
+This repository now contains a production-friendly frontend structure for the Strydë brand: a premium streetwear storefront concept for teens and young adults with a luxury / streetwear aesthetic.
 
-## Local preview
+## What is included
 
-Open `index.html` directly in a browser, or run a simple local server:
+- Premium brand landing page
+- Shop catalog page
+- Product detail pages
+- Cart and checkout flow
+- Policy and support pages
+- Newsletter and contact form handling using browser local storage
+- Vite-based production build setup
+- Netlify deployment config
+
+## Local development
+
+Install dependencies:
 
 ```bash
-python3 -m http.server 8000
+npm install
 ```
 
-Then visit http://localhost:8000
+Start the local Vite dev server:
 
-## Files
+```bash
+npm run dev
+```
 
-- `index.html` — main website structure and content
-- `styles.css` — modern responsive styling
-- `script.js` — small interaction for the mobile navigation
+The site will be available at:
+
+```text
+http://localhost:3000
+```
+
+## Production build
+
+Build the optimized production bundle:
+
+```bash
+npm run build
+```
+
+Preview the built site:
+
+```bash
+npm run preview
+```
+
+## Deploying to Netlify
+
+1. Push this repo to GitHub
+2. Import the repo into Netlify
+3. Set the build command to:
+
+```bash
+npm run build
+```
+
+4. Set the publish directory to:
+
+```bash
+dist
+```
 
 ## Notes
 
-This is a static website designed to be easy to customize and deploy to GitHub Pages or any static hosting platform.
+This is a frontend storefront prototype. For a real production commerce setup, the next step is to connect Stripe / PayPal, a backend database, and a real order management system.
