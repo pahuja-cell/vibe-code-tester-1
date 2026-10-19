@@ -1,68 +1,35 @@
-# Strydë — premium streetwear storefront
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Strydë | Order confirmed</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a href="index.html" class="brand" aria-label="Strydë home">
+          <span class="brand-mark">S</span>
+          <span class="brand-name">Strydë</span>
+        </a>
+      </div>
+    </header>
 
-This repository now contains a production-friendly frontend structure for the Strydë brand: a premium streetwear storefront concept for teens and young adults with a luxury / streetwear aesthetic.
+    <main class="section">
+      <div class="container success-page">
+        <div class="success-box">
+          <p class="eyebrow">Payment confirmed</p>
+          <h1>Thank you for shopping Strydë.</h1>
+          <p>Your order has been placed successfully. A confirmation email will be sent to your inbox shortly.</p>
+          <a href="index.html" class="btn btn-primary">Return home</a>
+        </div>
+      </div>
+    </main>
 
-## What is included
-
-- Premium brand landing page
-- Shop catalog page
-- Product detail pages
-- Cart and checkout flow
-- Policy and support pages
-- Newsletter and contact form handling using browser local storage
-- Vite-based production build setup
-- Netlify deployment config
-
-## Local development
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Start the local Vite dev server:
-
-```bash
-npm run dev
-```
-
-The site will be available at:
-
-```text
-http://localhost:3000
-```
-
-## Production build
-
-Build the optimized production bundle:
-
-```bash
-npm run build
-```
-
-Preview the built site:
-
-```bash
-npm run preview
-```
-
-## Deploying to Netlify
-
-1. Push this repo to GitHub
-2. Import the repo into Netlify
-3. Set the build command to:
-
-```bash
-npm run build
-```
-
-4. Set the publish directory to:
-
-```bash
-dist
-```
-
-## Notes
-
-This is a frontend storefront prototype. For a real production commerce setup, the next step is to connect Stripe / PayPal, a backend database, and a real order management system.
+    <script src="script.js"></script>
+  </body>
+</html>
