@@ -1,60 +1,222 @@
-# Strydë — premium streetwear storefront
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Strydë — premium streetwear for teens and young adults. Elevated essentials, accessible luxury, and modern culture-driven design."
+    />
+    <title>Strydë | Premium Streetwear</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
 
-Strydë is a premium streetwear brand concept focused on accessible luxury, modern street culture, and premium basics for teens and young adults.
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a href="index.html" class="brand" aria-label="Strydë home">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span class="brand-name">Strydë</span>
+        </a>
 
-## What is included
+        <nav class="main-nav" aria-label="Main navigation">
+          <a href="#new">New Arrivals</a>
+          <a href="#collections">Collections</a>
+          <a href="#story">Brand Story</a>
+          <a href="policies.html">Support</a>
+        </nav>
 
-- Premium landing page for the Strydë brand
-- Product catalog and product detail pages
-- Cart and checkout flow
-- Support and policy pages
-- Brand strategy / production roadmap page
-- Local order, newsletter, and support data storage via a backend API
-- Real Stripe Checkout integration ready for production
+        <div class="nav-actions">
+          <a class="nav-link" href="#newsletter">Join</a>
+          <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </button>
+          <a class="nav-link cart-link" href="cart.html" aria-label="Shopping bag with current item count">
+            Bag <span id="cart-count" aria-live="polite">0</span>
+          </a>
+        </div>
+      </div>
+    </header>
 
-## Local setup
+    <main id="main-content" tabindex="-1">
+      <section class="hero" aria-labelledby="hero-heading">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Elevated streetwear</p>
+            <h1 id="hero-heading">Heroic essentials for the next chapter.</h1>
+            <p class="lead">
+              Strydë is premium streetwear for teens and young adults — built on understated luxury, modern utility, and culture-driven confidence.
+            </p>
+            <div class="cta-row">
+              <a href="#new" class="btn btn-primary">Shop the drop</a>
+              <a href="#collections" class="btn btn-secondary">Explore collections</a>
+            </div>
+            <ul class="trust-list">
+              <li>Accessible premium pricing</li>
+              <li>Limited-run seasonal drops</li>
+              <li>Designed for movement and identity</li>
+            </ul>
+          </div>
 
-1. Install dependencies:
+          <div class="hero-visual" aria-label="Strydë product visual">
+            <div class="visual-card editorial">
+              <div class="visual-badge">Autumn / Winter 24</div>
+              <div class="model-figure model-one" aria-hidden="true"></div>
+              <div class="model-figure model-two" aria-hidden="true"></div>
+              <div class="visual-caption">
+                <span>New season</span>
+                <strong>Quiet power.</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-```bash
-npm install
-```
+      <section class="metric-band" aria-label="Brand metrics">
+        <div class="container metric-grid">
+          <div>
+            <strong>04</strong>
+            <span>Core capsules</span>
+          </div>
+          <div>
+            <strong>18–28</strong>
+            <span>Target age</span>
+          </div>
+          <div>
+            <strong>2–4x</strong>
+            <span>Monthly drops</span>
+          </div>
+          <div>
+            <strong>IG / TT</strong>
+            <span>Growth channels</span>
+          </div>
+        </div>
+      </section>
 
-2. Copy the environment file:
+      <section id="new" class="section" aria-labelledby="new-arrivals-heading">
+        <div class="container">
+          <div class="section-heading split-heading">
+            <div>
+              <p class="eyebrow">Latest arrivals</p>
+              <h2 id="new-arrivals-heading">Newly released</h2>
+            </div>
+            <a href="#newsletter" class="text-link">Get first access</a>
+          </div>
+          <div id="featured-products" class="product-grid"></div>
+        </div>
+      </section>
 
-```bash
-cp .env.example .env
-```
+      <section id="collections" class="section section-alt" aria-labelledby="collections-heading">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Collections</p>
+            <h2 id="collections-heading">Minimal silhouettes. Maximum presence.</h2>
+          </div>
+          <div id="collection-grid" class="collection-grid"></div>
+        </div>
+      </section>
 
-3. Add your actual Stripe credentials to `.env`:
+      <section id="story" class="section" aria-labelledby="story-heading">
+        <div class="container story-grid">
+          <div>
+            <p class="eyebrow">Our brand</p>
+            <h2 id="story-heading">Crafted for movement, identity and everyday confidence.</h2>
+          </div>
+          <div>
+            <p>
+              Strydë is the intersection of understated luxury and street culture. We focus on premium basics that feel elevated without theatrics — oversized silhouettes, refined materials, and a clear sense of modern identity.
+            </p>
+          </div>
+        </div>
+      </section>
 
-```env
-STRIPE_SECRET_KEY=sk_test_your_key_here
-STRIPE_PUBLISHABLE_KEY=pk_test_your_key_here
-```
+      <section class="section brand-values" aria-labelledby="brand-values-heading">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Why Strydë</p>
+            <h2 id="brand-values-heading">A premium identity built for culture.</h2>
+          </div>
+          <div class="values-grid">
+            <article class="value-card">
+              <span>01</span>
+              <h3>Accessible premium</h3>
+              <p>Premium feel, realistic pricing, and a marketable product ladder that scales.</p>
+            </article>
+            <article class="value-card">
+              <span>02</span>
+              <h3>Distinctive identity</h3>
+              <p>We avoid cliché sportsgraphics and fake luxury cues. Our emblem is the story.</p>
+            </article>
+            <article class="value-card">
+              <span>03</span>
+              <h3>Culture led</h3>
+              <p>Built for social discovery, short-form storytelling, and authentic community growth.</p>
+            </article>
+          </div>
+        </div>
+      </section>
 
-4. Start the local server:
+      <section class="section social-section" aria-labelledby="social-heading">
+        <div class="container social-grid">
+          <div class="social-copy">
+            <p class="eyebrow">Social strategy</p>
+            <h2 id="social-heading">Built for TikTok and Instagram attention.</h2>
+            <p>
+              Strydë grows through quick styling videos, behind-the-scenes product development, drop anticipation, and creator-led daily wear moments. We make premium feel attainable, and culture feel grounded in authenticity.
+            </p>
+          </div>
 
-```bash
-npm start
-```
+          <div class="social-stats" aria-label="Social growth stats">
+            <div class="stat-box">
+              <strong>3–5x</strong>
+              <span>Reels / styling content weekly</span>
+            </div>
+            <div class="stat-box">
+              <strong>UGC-first</strong>
+              <span>Customer styling content</span>
+            </div>
+            <div class="stat-box">
+              <strong>Drop culture</strong>
+              <span>Limited releases and waitlists</span>
+            </div>
+          </div>
+        </div>
+      </section>
 
-The site will run at:
+      <section id="newsletter" class="section contact-section" aria-labelledby="newsletter-heading">
+        <div class="container contact-card">
+          <div class="contact-copy">
+            <p class="eyebrow">Customer support</p>
+            <h2 id="newsletter-heading">Join the Strydë list.</h2>
+          </div>
+          <form class="newsletter-form" id="newsletter-form" novalidate>
+            <label class="sr-only" for="newsletter-email">Email address</label>
+            <input id="newsletter-email" type="email" placeholder="Enter your email" required aria-required="true" />
+            <button class="btn btn-primary" type="submit">Get updates</button>
+          </form>
+        </div>
+      </section>
+    </main>
 
-```text
-http://localhost:3000
-```
+    <footer class="site-footer">
+      <div class="container footer-wrap">
+        <p>© <span id="year"></span> Strydë</p>
+        <div class="footer-links" aria-label="Footer navigation">
+          <a href="#new">Shop</a>
+          <a href="policies.html">Shipping</a>
+          <a href="policies.html#returns">Returns</a>
+          <a href="policies.html#privacy">Privacy</a>
+        </div>
+      </div>
+    </footer>
 
-## Production payment setup
-
-This project is configured to work with Stripe Checkout. In production, you should:
-
-- add real Stripe Secret and Publishable keys
-- enable the payment methods you want to accept, such as card, PayPal and Klarna
-- set the correct `PUBLIC_URL` to your deployed domain
-- configure Stripe webhooks for order confirmation
-- store orders in a real database such as Supabase or PostgreSQL
-
-## Notes
-
-This version includes real backend API endpoints and Stripe integration logic, but live payments require real Stripe credentials and a deployed environment.
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
